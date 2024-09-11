@@ -3,15 +3,12 @@ import openpyxl
 from openpyxl.styles import PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
-
 # Helper constants
 DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]
 DEFAULT_END_TIME = "20h00"
 
-
-
 filter_settings = {
-    "free_days": False,
+    "free_days": 0,  # Changed from boolean to integer
     "end_time": DEFAULT_END_TIME,
     "professor": ""
 }
@@ -19,113 +16,91 @@ filter_settings = {
 
 # As horas têm de ter todas 5 digitos
 aulas = {
-    "AED": [
-        [(1, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (1, "Terça", "08:30", "10:30", ["DEI_2_AED_2"], "TP")],
-        [(2, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (2, "Segunda", "16:00", "19:00", ["FMMR"], "TP")],
-        [(3, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (3, "Quarta", "11:00", "13:00", ["DEI_2_AED_2"], "TP")],
-        [(4, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (4, "Quarta", "10:30", "12:30", ["BJCL"], "TP")],
-        [(5, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (5, "Terça", "08:30", "10:30", ["DEI_2_AED_1"], "TP")],
-        [(6, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (6, "Sexta", "17:00", "19:00", ["VAFS"], "TP")],
-        [(7, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (7, "Sexta", "17:00", "19:00", ["IXSDS"], "TP")],
-        [(8, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (8, "Quinta", "14:00", "16:00", ["APR"], "TP")],
+    "AEDT": [
+        [(1, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T")],
+        [(9, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),]
     ],
-    "BD": [
+    "AED": [
+        [(1, "Terça", "08:30", "10:30", ["DEI_2_AED_2"], "TP")],
+        [(2, "Segunda", "16:00", "19:00", ["FMMR"], "TP")],
+        [(3, "Quarta", "11:00", "13:00", ["DEI_2_AED_2"], "TP")],
+        [(4, "Quarta", "10:30", "12:30", ["BJCL"], "TP")],
+        [(5, "Terça", "08:30", "10:30", ["DEI_2_AED_1"], "TP")],
+        [(6, "Sexta", "17:00", "19:00", ["VAFS"], "TP")],
+        [(7, "Sexta", "17:00", "19:00", ["IXSDS"], "TP")],
+        [(8, "Quinta", "14:00", "16:00", ["APR"], "TP")]
+    ],
+    "BDT": [
         [(1,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (1,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (1,"Quarta", "10:30", "12:30", ["ANE"], "TP"),],
+         (1,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T")],
+        [(9,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
+         (9,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T")]
+    ],
+    
+    "BD": [
+        [(1,"Quarta", "10:30", "12:30", ["ANE"], "TP"),],
         
-        [(2,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (2,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (2,"Sexta", "17h00", "19h00", ["JPMD"], "TP"),],
+        [(2,"Sexta", "17h00", "19h00", ["JPMD"], "TP"),],
         
-        [(3,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (3,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (3,"Quinta", "14h00", "16h00", ["DFG"], "TP"),],
+        [(3,"Quinta", "14h00", "16h00", ["DFG"], "TP"),],
         
-        [(4,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (4,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (4,"Segunda", "16h00", "18h00", ["LGBC"], "TP"),],
+        [(4,"Segunda", "16h00", "18h00", ["LGBC"], "TP"),],
         
-        [(5,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (5,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (5,"Sexta", "17h00", "19h00", ["MFD"], "TP"),],
+        [(5,"Sexta", "17h00", "19h00", ["MFD"], "TP"),],
         
-        [(6,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (6,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (6,"Segunda", "16h00", "18h00", ["MCPF"], "TP"),],
+        [(6,"Segunda", "16h00", "18h00", ["MCPF"], "TP"),],
         
-        [(7,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (7,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (7,"Terça", "08h30", "10h30", ["DEI_PAUX_SINF"], "TP"),],
+        [(7,"Terça", "08h30", "10h30", ["DEI_PAUX_SINF"], "TP"),],
         
-        [(8,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (8,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (8,"Terça", "08h30", "10h30", ["ASP"], "TP"),],
+        [(8,"Terça", "08h30", "10h30", ["ASP"], "TP"),]   
+    ],
+    
+    "FIIT": [
+        [(1, "Quinta", "16:00", "17:30", ["JCREO"], "T")],
+        [(9, "Quinta", "14:30", "16:00", ["JCREO"], "T")]
     ],
     
     "FII": [
-        [(1, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (1, "Quinta", "14:00", "15:30", ["MFGM"], "TP")],
-        [(2, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (2, "Quinta", "14:30", "16:00", ["JB"], "TP")],
-        [(3, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (3, "Segunda", "16:00", "17:30", ["JCREO"], "TP")],
-        [(4, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (4, "Sexta", "17:00", "18:30", ["AGCG"], "TP")],
-        [(5, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (5, "Segunda", "16:00", "17:30", ["PPA"], "TP")],
-        [(6, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (6, "Quinta", "14:30", "16:00", ["DPU"], "TP")],
-        [(7, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (7, "Quinta", "14:00", "15:30", ["DEI_1_FP_1"], "TP")],
-        [(8, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (8, "Sexta", "17:00", "18:30", ["JCREO"], "TP")],
+        [(1, "Quinta", "14:00", "15:30", ["MFGM"], "TP")],
+        [(2, "Quinta", "14:30", "16:00", ["JB"], "TP")],
+        [(3, "Segunda", "16:00", "17:30", ["JCREO"], "TP")],
+        [(4, "Sexta", "17:00", "18:30", ["AGCG"], "TP")],
+        [(5, "Segunda", "16:00", "17:30", ["PPA"], "TP")],
+        [(6, "Quinta", "14:30", "16:00", ["DPU"], "TP")],
+        [(7, "Quinta", "14:00", "15:30", ["DEI_1_FP_1"], "TP")],
+        [(8, "Sexta", "17:00", "18:30", ["JCREO"], "TP")]
+    ],
+    
+    "LDTST" : [
+        [(1, "Segunda", "14h00", "16h00", ["rma"], "T")],
+        [(9, "Segunda", "16h00", "18h00", ["rma"], "T")],
     ],
     
     "LDTS" : [
-        [(1, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (1, "Segunda", "16h00", "18h00", ["AOR"], "PL")],
-        [(2, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (2, "Terça", "08h30", "10h30", ["rma"], "PL")],
-        [(3, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (3, "Sexta", "17h00", "19h00", ["JAC"], "PL")],
-        [(4, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (4, "Quinta", "14h00", "16h00", ["JCMC"], "PL")],
-        [(5, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (5, "Quarta", "10h30", "12h30", ["LFFG"], "PL")],
-        [(6, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (6, "Terça", "08h30", "10h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
-        [(7, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (7, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
-        [(8, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (8, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
+        [(1, "Segunda", "16h00", "18h00", ["AOR"], "PL")],
+        [(2, "Terça", "08h30", "10h30", ["rma"], "PL")],
+        [(3, "Sexta", "17h00", "19h00", ["JAC"], "PL")],
+        [(4, "Quinta", "14h00", "16h00", ["JCMC"], "PL")],
+        [(5, "Quarta", "10h30", "12h30", ["LFFG"], "PL")],
+        [(6, "Terça", "08h30", "10h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+        [(7, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
+        [(8, "Quarta", "10h30", "12h30", ["DABF"], "PL")]
+    ],
+    
+    "SOT" : [
+        [(1, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T")],
+        [(9, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T")]
     ],
     
     "SO" : [
-        [(1, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (1, "Sexta", "17h00", "19h00", ["JHSO"], "TP")],
-        [(2, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (2, "Quarta", "10h30", "12h30", ["TLS"], "TP")],
-        [(3, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (3, "Terça", "08h30", "10h30", ["HMSO"], "TP")],
-        [(4, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (4, "Terça", "08h30", "10h30", ["LMBL"], "TP")],
-        [(5, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (5, "Quinta", "14h00", "16h00", ["LFOP"], "TP")],
-        [(6, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (6, "Quarta", "10h30", "12h30", ["MMC"], "TP")],
-        [(7, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (7, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
-        [(8, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (8, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
+        [(1, "Sexta", "17h00", "19h00", ["JHSO"], "TP")],
+        [(2, "Quarta", "10h30", "12h30", ["TLS"], "TP")],
+        [(3, "Terça", "08h30", "10h30", ["HMSO"], "TP")],
+        [(4, "Terça", "08h30", "10h30", ["LMBL"], "TP")],
+        [(5, "Quinta", "14h00", "16h00", ["LFOP"], "TP")],
+        [(6, "Quarta", "10h30", "12h30", ["MMC"], "TP")],
+        [(7, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
+        [(8, "Segunda", "16h00", "18h00", ["PRCS"], "TP")]
     ]
     
     
@@ -266,11 +241,11 @@ def output_schedules_to_excel(schedules, filename="schedules_1oturno.xlsx"):
     wb.save(filename)
     print(f"Schedules have been saved to {filename}")
 
-def filter_schedules_by_free_days(schedules):
+def filter_schedules_by_free_days(schedules, min_free_days):
     """
-    Filters schedules to include only those that have at least one completely free day.
+    Filters schedules to include only those that have at least the specified number of completely free days.
     """
-    return [schedule for schedule in schedules if any(len(day) == 0 for day in schedule)]
+    return [schedule for schedule in schedules if sum(len(day) == 0 for day in schedule) >= min_free_days]
 
 def filter_schedules_by_end_time(schedules, end_time):
     """
@@ -330,14 +305,15 @@ def filter_schedules_by_professor(schedules, professor):
     
     return filtered_schedules
 
+
 def apply_filters(schedules, settings):
     """
     Applies all active filters to the schedules based on the current settings.
     """
     filtered_schedules = schedules
 
-    if settings["free_days"]:
-        filtered_schedules = filter_schedules_by_free_days(filtered_schedules)
+    if settings["free_days"] > 0:
+        filtered_schedules = filter_schedules_by_free_days(filtered_schedules, settings["free_days"])
 
     if settings["end_time"] != DEFAULT_END_TIME:
         filtered_schedules = filter_schedules_by_end_time(filtered_schedules, settings["end_time"])
@@ -390,14 +366,14 @@ def main():
         if user_choice == "1":
             if is_first_time:
                 print("\nCalculating all schedules...\n")
-                schedules = generate_schedules(aulas, ["AED", "FII", "BD", "LDTS", "SO"], [[], [], [], [], []])
+                schedules = generate_schedules(aulas, ["AED","AEDT", "FII", "FIIT", "BD","BDT", "LDTS","LDTST", "SO","SOT"], [[], [], [], [], []])
                 original_schedules = copy.deepcopy(schedules)
                 is_first_time = False
                 print("Schedules generated successfully!\n")
             else:
                 schedules = copy.deepcopy(original_schedules)
                 filter_settings = {
-                    "free_days": False,
+                    "free_days": 0,  # Reset to 0 instead of False
                     "end_time": DEFAULT_END_TIME,
                     "professor": ""
                 }
@@ -408,16 +384,24 @@ def main():
             while filter_choice != "0":
                 print("\n\nFilter Options\n")
                 print(f"Current settings:")
-                print(f"- Free days: {'Yes' if filter_settings['free_days'] else 'No'}")
+                print(f"- Minimum free days: {filter_settings['free_days']}")
                 print(f"- End time: {filter_settings['end_time']}")
                 print(f"- Professor: {filter_settings['professor'] if filter_settings['professor'] else 'Not set'}")
                 print(f"\nNumber of schedules: {len(schedules)}")
                 print("\nChoose an option:")
-                filter_choice = input('1 - Toggle free days\n2 - Set end time\n3 - Set professor\n4 - Apply filters\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
+                filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n\n4 - Apply filters\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
 
                 if filter_choice == "1":
-                    filter_settings["free_days"] = not filter_settings["free_days"]
-                    print(f"\nFree days filter {'enabled' if filter_settings['free_days'] else 'disabled'}")
+                    new_free_days = input(f"\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
+                    try:
+                        new_free_days = int(new_free_days)
+                        if 0 <= new_free_days <= 5:
+                            filter_settings["free_days"] = new_free_days
+                            print(f"\nMinimum free days set to: {new_free_days}")
+                        else:
+                            print("\nInvalid input. Please enter a number between 0 and 5.")
+                    except ValueError:
+                        print("\nInvalid input. Please enter a valid integer.")
                 
                 elif filter_choice == "2":
                     new_end_time = input(f'\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
@@ -435,7 +419,7 @@ def main():
 
                 elif filter_choice == "9":
                     filter_settings = {
-                        "free_days": False,
+                        "free_days": 0,  # Reset to 0 instead of False
                         "end_time": DEFAULT_END_TIME,
                         "professor": ""
                     }

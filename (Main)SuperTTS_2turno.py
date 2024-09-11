@@ -11,7 +11,7 @@ DEFAULT_END_TIME = "20h00"
 
 
 filter_settings = {
-    "free_days": False,
+    "free_days": 0,
     "end_time": DEFAULT_END_TIME,
     "professor": ""
 }
@@ -266,11 +266,11 @@ def output_schedules_to_excel(schedules, filename="schedules_2oturno.xlsx"):
     wb.save(filename)
     print(f"Schedules have been saved to {filename}")
 
-def filter_schedules_by_free_days(schedules):
+def filter_schedules_by_free_days(schedules, min_free_days):
     """
-    Filters schedules to include only those that have at least one completely free day.
+    Filters schedules to include only those that have at least the specified number of completely free days.
     """
-    return [schedule for schedule in schedules if any(len(day) == 0 for day in schedule)]
+    return [schedule for schedule in schedules if sum(len(day) == 0 for day in schedule) >= min_free_days]
 
 def filter_schedules_by_end_time(schedules, end_time):
     """
@@ -336,8 +336,8 @@ def apply_filters(schedules, settings):
     """
     filtered_schedules = schedules
 
-    if settings["free_days"]:
-        filtered_schedules = filter_schedules_by_free_days(filtered_schedules)
+    if settings["free_days"] > 0:
+        filtered_schedules = filter_schedules_by_free_days(filtered_schedules, settings["free_days"])
 
     if settings["end_time"] != DEFAULT_END_TIME:
         filtered_schedules = filter_schedules_by_end_time(filtered_schedules, settings["end_time"])
@@ -346,7 +346,6 @@ def apply_filters(schedules, settings):
         filtered_schedules = filter_schedules_by_professor(filtered_schedules, settings["professor"])
 
     return filtered_schedules
-
 
 def count_subject_days(schedule):
     """
@@ -397,7 +396,7 @@ def main():
             else:
                 schedules = copy.deepcopy(original_schedules)
                 filter_settings = {
-                    "free_days": False,
+                    "free_days": 0,
                     "end_time": DEFAULT_END_TIME,
                     "professor": ""
                 }
@@ -408,39 +407,50 @@ def main():
             while filter_choice != "0":
                 print("\n\nFilter Options\n")
                 print(f"Current settings:")
-                print(f"- Free days: {'Yes' if filter_settings['free_days'] else 'No'}")
+                print(f"- Minimum free days: {filter_settings['free_days']}")
                 print(f"- End time: {filter_settings['end_time']}")
                 print(f"- Professor: {filter_settings['professor'] if filter_settings['professor'] else 'Not set'}")
                 print(f"\nNumber of schedules: {len(schedules)}")
                 print("\nChoose an option:")
-                filter_choice = input('1 - Toggle free days\n2 - Set end time\n3 - Set professor\n4 - Apply filters\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
+                filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
 
                 if filter_choice == "1":
-                    filter_settings["free_days"] = not filter_settings["free_days"]
-                    print(f"\nFree days filter {'enabled' if filter_settings['free_days'] else 'disabled'}")
+                    new_free_days = input(f"\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
+                    try:
+                        new_free_days = int(new_free_days)
+                        if 0 <= new_free_days <= 5:
+                            filter_settings["free_days"] = new_free_days
+                            print(f"\nMinimum free days set to: {new_free_days}")
+                            schedules = apply_filters(original_schedules, filter_settings)
+                            print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
+                        else:
+                            print("\nInvalid input. Please enter a number between 0 and 5.")
+                    except ValueError:
+                        print("\nInvalid input. Please enter a valid integer.")
                 
                 elif filter_choice == "2":
                     new_end_time = input(f'\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
                     filter_settings["end_time"] = new_end_time
                     print(f"\nEnd time set to: {new_end_time}")
+                    schedules = apply_filters(original_schedules, filter_settings)
+                    print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
 
                 elif filter_choice == "3":
                     new_professor = input("\nEnter the professor's name: ")
                     filter_settings["professor"] = new_professor
                     print(f"\nProfessor filter set to: {new_professor}")
-
-                elif filter_choice == "4":
                     schedules = apply_filters(original_schedules, filter_settings)
-                    print(f"\nFilters applied. Number of schedules after filtering: {len(schedules)}")
+                    print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
 
                 elif filter_choice == "9":
                     filter_settings = {
-                        "free_days": False,
+                        "free_days": 0,
                         "end_time": DEFAULT_END_TIME,
                         "professor": ""
                     }
                     schedules = copy.deepcopy(original_schedules)
                     print("\nFilter settings and schedules reset successfully.")
+                    print(f"Number of schedules after resetting: {len(schedules)}")
 
                 elif filter_choice == "0":
                     break

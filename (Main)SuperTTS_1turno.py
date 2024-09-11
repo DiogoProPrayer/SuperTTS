@@ -3,9 +3,12 @@ import openpyxl
 from openpyxl.styles import PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
+
 # Helper constants
 DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]
 DEFAULT_END_TIME = "20h00"
+
+
 
 filter_settings = {
     "free_days": 0,
@@ -33,22 +36,6 @@ aulas = {
          (7, "Sexta", "17:00", "19:00", ["IXSDS"], "TP")],
         [(8, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
          (8, "Quinta", "14:00", "16:00", ["APR"], "TP")],
-        [(9, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (9, "Sexta", "14:00", "16:00", ["IXSDS"], "TP")],
-        [(10, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (10, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
-        [(11, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (11, "Segunda", "14h00", "16h00", ["FMMR"], "TP")],
-        [(12, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (12, "Terça", "10h30", "12h30", ["DEI_2_AED_1"], "TP")],
-        [(13, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (13, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
-        [(14, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (14, "Quinta", "16h00", "18h00", ["APR"], "TP")],
-        [(15, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (15, "Sexta", "14h00", "16h00", ["VAFS"], "TP")],
-        [(16, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (16, "Sexta", "14h00", "16h00", ["VAFS"], "TP")],
     ],
     "BD": [
         [(1,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
@@ -82,38 +69,6 @@ aulas = {
         [(8,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
          (8,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
          (8,"Terça", "08h30", "10h30", ["ASP"], "TP"),],
-        
-        [(9,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (9,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (9,"Quinta", "16h00", "18h00", ["DFG"], "TP"),],
-        
-        [(10,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (10,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (10,"Terça", "10h30", "12h30", ["ASP"], "TP"),],
-        
-        [(11,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (11,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (11,"Quinta", "16h00", "18h00", ["AHM"], "TP"),],
-        
-        [(12,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (12,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (12,"Sexta", "14h00", "16h00", ["MFD"], "TP"),],
-        
-        [(13,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (13,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (13,"Segunda", "14h00", "16h00", ["MCPF"], "TP"),],
-        
-        [(14,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (14,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (14,"Segunda", "14h00", "16h00", ["LGBC"], "TP"),],
-        
-        [(15,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (15,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (15,"Quarta", "08h30", "10h30", ["ANE"], "TP"),],
-        
-        [(16,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (16,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (16,"Quarta", "08h00", "10h00", ["CTL"], "TP"),],    
     ],
     
     "FII": [
@@ -133,22 +88,6 @@ aulas = {
          (7, "Quinta", "14:00", "15:30", ["DEI_1_FP_1"], "TP")],
         [(8, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
          (8, "Sexta", "17:00", "18:30", ["JCREO"], "TP")],
-        [(9, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (9, "Quarta", "09:00", "10:30", ["DPU"], "TP")],
-        [(10, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (10, "Sexta", "14:00", "15:30", ["JCREO"], "TP")],
-        [(11, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (11, "Terça", "10:00", "11:30", ["DEI_1_FP_2"], "TP")],
-        [(12, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (12, "Quinta", "16:00", "17:30", ["JB"], "TP")],
-        [(13, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (13, "Sexta", "14:30", "16:00", ["AGCG"], "TP")],
-        [(14, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (14, "Quinta", "11:00", "12:30", ["DPU"], "TP")],
-        [(15, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (15, "Segunda", "14:30", "16:00", ["PPA"], "TP")],
-        [(16, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (16, "Segunda", "14:30", "16:00", ["PPA"], "TP")],
     ],
     
     "LDTS" : [
@@ -168,22 +107,6 @@ aulas = {
          (7, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
         [(8, "Segunda", "14h00", "16h00", ["rma"], "T"),
          (8, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
-        [(9, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (9, "Segunda", "14h00", "16h00", ["AOR"], "PL")],
-        [(10, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (10, "Quinta", "16h00", "18h00", ["AOR"], "PL")],
-        [(11, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (11, "Quarta", "08h30", "10h30", ["LFFG"], "PL")],
-        [(12, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (12, "Quarta", "08h30", "10h30", ["DABF"], "PL")],
-        [(13, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (13, "Quinta", "16h00", "18h00", ["JCMC"], "PL")],
-        [(14, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (14, "Sexta", "14h00", "16h00", ["JAC"], "PL")],
-        [(15, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (15, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
-        [(16, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (16, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
     ],
     
     "SO" : [
@@ -203,22 +126,6 @@ aulas = {
          (7, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
         [(8, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
          (8, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
-        [(9, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (9, "Terça", "10h30", "12h30", ["HMSO"], "TP")],
-        [(10, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (10, "Segunda", "14h00", "16h00", ["FAFAM"], "TP")],
-        [(11, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (11, "Sexta", "14h00", "16h00", ["JHSO"], "TP")],
-        [(12, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (12, "Segunda", "14h00", "16h00", ["PRCS"], "TP")],
-        [(13, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (13, "Terça", "10h30", "12h30", ["LMBL"], "TP")],
-        [(14, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (14, "Quarta", "08h30", "10h30", ["MMC"], "TP")],
-        [(15, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (15, "Quinta", "16h00", "18h00", ["LFOP"], "TP")],
-        [(16, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (16, "Quinta", "16h00", "18h00", ["LFOP"], "TP")],
     ]
     
     
@@ -278,7 +185,7 @@ def generate_schedules(courses, remaining_courses, current_schedule):
 
     return schedules_list
 
-def output_schedules_to_excel(schedules, filename="schedules_all.xlsx"):
+def output_schedules_to_excel(schedules, filename="schedules_1oturno.xlsx"):
     """
     Outputs the given list of schedules to an Excel file.
     """
@@ -423,6 +330,7 @@ def filter_schedules_by_professor(schedules, professor):
     
     return filtered_schedules
 
+
 def apply_filters(schedules, settings):
     """
     Applies all active filters to the schedules based on the current settings.
@@ -439,6 +347,7 @@ def apply_filters(schedules, settings):
         filtered_schedules = filter_schedules_by_professor(filtered_schedules, settings["professor"])
 
     return filtered_schedules
+
 
 def count_subject_days(schedule):
     """

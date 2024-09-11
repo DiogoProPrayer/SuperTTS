@@ -8,7 +8,7 @@ DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]
 DEFAULT_END_TIME = "20h00"
 
 filter_settings = {
-    "free_days": 0,
+    "free_days": 0,  # Changed from boolean to integer
     "end_time": DEFAULT_END_TIME,
     "professor": ""
 }
@@ -16,217 +16,96 @@ filter_settings = {
 
 # As horas têm de ter todas 5 digitos
 aulas = {
-    "AED": [
-        [(1, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (1, "Terça", "08:30", "10:30", ["DEI_2_AED_2"], "TP")],
-        [(2, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (2, "Segunda", "16:00", "19:00", ["FMMR"], "TP")],
-        [(3, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (3, "Quarta", "11:00", "13:00", ["DEI_2_AED_2"], "TP")],
-        [(4, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (4, "Quarta", "10:30", "12:30", ["BJCL"], "TP")],
-        [(5, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (5, "Terça", "08:30", "10:30", ["DEI_2_AED_1"], "TP")],
-        [(6, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (6, "Sexta", "17:00", "19:00", ["VAFS"], "TP")],
-        [(7, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (7, "Sexta", "17:00", "19:00", ["IXSDS"], "TP")],
-        [(8, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (8, "Quinta", "14:00", "16:00", ["APR"], "TP")],
-        [(9, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (9, "Sexta", "14:00", "16:00", ["IXSDS"], "TP")],
-        [(10, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (10, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
-        [(11, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (11, "Segunda", "14h00", "16h00", ["FMMR"], "TP")],
-        [(12, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (12, "Terça", "10h30", "12h30", ["DEI_2_AED_1"], "TP")],
-        [(13, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (13, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
-        [(14, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (14, "Quinta", "16h00", "18h00", ["APR"], "TP")],
-        [(15, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (15, "Sexta", "14h00", "16h00", ["VAFS"], "TP")],
-        [(16, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (16, "Sexta", "14h00", "16h00", ["VAFS"], "TP")],
+    "AEDT": [
+        [(1, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T")],
+        [(9, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),]
     ],
-    "BD": [
+    "AED": [[(9, "Sexta", "14:00", "16:00", ["IXSDS"], "TP")],
+        [(10, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
+        [(11, "Segunda", "14h00", "16h00", ["FMMR"], "TP")],
+        [(12, "Terça", "10h30", "12h30", ["DEI_2_AED_1"], "TP")],
+        [(13, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
+        [(14, "Quinta", "16h00", "18h00", ["APR"], "TP")],
+        [(15, "Sexta", "14h00", "16h00", ["VAFS"], "TP")],
+        [(16, "Sexta", "14h00", "16h00", ["VAFS"], "TP")],
+    ],
+    "BDT": [
         [(1,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (1,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (1,"Quarta", "10:30", "12:30", ["ANE"], "TP"),],
-        
-        [(2,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (2,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (2,"Sexta", "17h00", "19h00", ["JPMD"], "TP"),],
-        
-        [(3,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (3,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (3,"Quinta", "14h00", "16h00", ["DFG"], "TP"),],
-        
-        [(4,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (4,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (4,"Segunda", "16h00", "18h00", ["LGBC"], "TP"),],
-        
-        [(5,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (5,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (5,"Sexta", "17h00", "19h00", ["MFD"], "TP"),],
-        
-        [(6,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (6,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (6,"Segunda", "16h00", "18h00", ["MCPF"], "TP"),],
-        
-        [(7,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (7,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (7,"Terça", "08h30", "10h30", ["DEI_PAUX_SINF"], "TP"),],
-        
-        [(8,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
-         (8,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (8,"Terça", "08h30", "10h30", ["ASP"], "TP"),],
-        
+         (1,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T")],
         [(9,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (9,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (9,"Quinta", "16h00", "18h00", ["DFG"], "TP"),],
+         (9,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T")]
+    ],
+    
+    "BD": [
+        [(9,"Quinta", "16h00", "18h00", ["DFG"], "TP"),],
         
-        [(10,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (10,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (10,"Terça", "10h30", "12h30", ["ASP"], "TP"),],
+        [(10,"Terça", "10h30", "12h30", ["ASP"], "TP"),],
         
-        [(11,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (11,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (11,"Quinta", "16h00", "18h00", ["AHM"], "TP"),],
+        [(11,"Quinta", "16h00", "18h00", ["AHM"], "TP"),],
         
-        [(12,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (12,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (12,"Sexta", "14h00", "16h00", ["MFD"], "TP"),],
+        [(12,"Sexta", "14h00", "16h00", ["MFD"], "TP"),],
         
-        [(13,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (13,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (13,"Segunda", "14h00", "16h00", ["MCPF"], "TP"),],
+        [(13,"Segunda", "14h00", "16h00", ["MCPF"], "TP"),],
         
-        [(14,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (14,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (14,"Segunda", "14h00", "16h00", ["LGBC"], "TP"),],
+        [(14,"Segunda", "14h00", "16h00", ["LGBC"], "TP"),],
         
-        [(15,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (15,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (15,"Quarta", "08h30", "10h30", ["ANE"], "TP"),],
+        [(15,"Quarta", "08h30", "10h30", ["ANE"], "TP"),],
         
-        [(16,"Segunda", "18h00", "19h00", ["MCPF", "CTL"], "T"),
-         (16,"Sexta", "18:00", "19:00", ["MCPF", "CTL"], "T"),
-         (16,"Quarta", "08h00", "10h00", ["CTL"], "TP"),],    
+        [(16,"Quarta", "08h00", "10h00", ["CTL"], "TP"),],    
+    ],
+    
+    "FIIT": [
+        [(1, "Quinta", "16:00", "17:30", ["JCREO"], "T")],
+        [(9, "Quinta", "14:30", "16:00", ["JCREO"], "T")]
     ],
     
     "FII": [
-        [(1, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (1, "Quinta", "14:00", "15:30", ["MFGM"], "TP")],
-        [(2, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (2, "Quinta", "14:30", "16:00", ["JB"], "TP")],
-        [(3, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (3, "Segunda", "16:00", "17:30", ["JCREO"], "TP")],
-        [(4, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (4, "Sexta", "17:00", "18:30", ["AGCG"], "TP")],
-        [(5, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (5, "Segunda", "16:00", "17:30", ["PPA"], "TP")],
-        [(6, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (6, "Quinta", "14:30", "16:00", ["DPU"], "TP")],
-        [(7, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (7, "Quinta", "14:00", "15:30", ["DEI_1_FP_1"], "TP")],
-        [(8, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
-         (8, "Sexta", "17:00", "18:30", ["JCREO"], "TP")],
-        [(9, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (9, "Quarta", "09:00", "10:30", ["DPU"], "TP")],
-        [(10, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (10, "Sexta", "14:00", "15:30", ["JCREO"], "TP")],
-        [(11, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (11, "Terça", "10:00", "11:30", ["DEI_1_FP_2"], "TP")],
-        [(12, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (12, "Quinta", "16:00", "17:30", ["JB"], "TP")],
-        [(13, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (13, "Sexta", "14:30", "16:00", ["AGCG"], "TP")],
-        [(14, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (14, "Quinta", "11:00", "12:30", ["DPU"], "TP")],
-        [(15, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (15, "Segunda", "14:30", "16:00", ["PPA"], "TP")],
-        [(16, "Quinta", "14:30", "16:00", ["JCREO"], "T"),
-         (16, "Segunda", "14:30", "16:00", ["PPA"], "TP")],
+        [(9, "Quarta", "09:00", "10:30", ["DPU"], "TP")],
+        [(10, "Sexta", "14:00", "15:30", ["JCREO"], "TP")],
+        [(11, "Terça", "10:00", "11:30", ["DEI_1_FP_2"], "TP")],
+        [(12, "Quinta", "16:00", "17:30", ["JB"], "TP")],
+        [(13, "Sexta", "14:30", "16:00", ["AGCG"], "TP")],
+        [(14, "Quinta", "11:00", "12:30", ["DPU"], "TP")],
+        [(15, "Segunda", "14:30", "16:00", ["PPA"], "TP")],
+        [(16, "Segunda", "14:30", "16:00", ["PPA"], "TP")],
+    ],
+    
+    "LDTST" : [
+        [(1, "Segunda", "14h00", "16h00", ["rma"], "T")],
+        [(9, "Segunda", "16h00", "18h00", ["rma"], "T")],
     ],
     
     "LDTS" : [
-        [(1, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (1, "Segunda", "16h00", "18h00", ["AOR"], "PL")],
-        [(2, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (2, "Terça", "08h30", "10h30", ["rma"], "PL")],
-        [(3, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (3, "Sexta", "17h00", "19h00", ["JAC"], "PL")],
-        [(4, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (4, "Quinta", "14h00", "16h00", ["JCMC"], "PL")],
-        [(5, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (5, "Quarta", "10h30", "12h30", ["LFFG"], "PL")],
-        [(6, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (6, "Terça", "08h30", "10h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
-        [(7, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (7, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
-        [(8, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (8, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
-        [(9, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (9, "Segunda", "14h00", "16h00", ["AOR"], "PL")],
-        [(10, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (10, "Quinta", "16h00", "18h00", ["AOR"], "PL")],
-        [(11, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (11, "Quarta", "08h30", "10h30", ["LFFG"], "PL")],
-        [(12, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (12, "Quarta", "08h30", "10h30", ["DABF"], "PL")],
-        [(13, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (13, "Quinta", "16h00", "18h00", ["JCMC"], "PL")],
-        [(14, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (14, "Sexta", "14h00", "16h00", ["JAC"], "PL")],
-        [(15, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (15, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
-        [(16, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (16, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+        [(9, "Segunda", "14h00", "16h00", ["AOR"], "PL")],
+        [(10, "Quinta", "16h00", "18h00", ["AOR"], "PL")],
+        [(11, "Quarta", "08h30", "10h30", ["LFFG"], "PL")],
+        [(12, "Quarta", "08h30", "10h30", ["DABF"], "PL")],
+        [(13, "Quinta", "16h00", "18h00", ["JCMC"], "PL")],
+        [(14, "Sexta", "14h00", "16h00", ["JAC"], "PL")],
+        [(15, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+        [(16, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+    ],
+    
+    "SOT" : [
+        [(1, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T")],
+        [(9, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T")]
     ],
     
     "SO" : [
-        [(1, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (1, "Sexta", "17h00", "19h00", ["JHSO"], "TP")],
-        [(2, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (2, "Quarta", "10h30", "12h30", ["TLS"], "TP")],
-        [(3, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (3, "Terça", "08h30", "10h30", ["HMSO"], "TP")],
-        [(4, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (4, "Terça", "08h30", "10h30", ["LMBL"], "TP")],
-        [(5, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (5, "Quinta", "14h00", "16h00", ["LFOP"], "TP")],
-        [(6, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (6, "Quarta", "10h30", "12h30", ["MMC"], "TP")],
-        [(7, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (7, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
-        [(8, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
-         (8, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
-        [(9, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (9, "Terça", "10h30", "12h30", ["HMSO"], "TP")],
-        [(10, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (10, "Segunda", "14h00", "16h00", ["FAFAM"], "TP")],
-        [(11, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (11, "Sexta", "14h00", "16h00", ["JHSO"], "TP")],
-        [(12, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (12, "Segunda", "14h00", "16h00", ["PRCS"], "TP")],
-        [(13, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (13, "Terça", "10h30", "12h30", ["LMBL"], "TP")],
-        [(14, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (14, "Quarta", "08h30", "10h30", ["MMC"], "TP")],
-        [(15, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (15, "Quinta", "16h00", "18h00", ["LFOP"], "TP")],
-        [(16, "Sexta", "16h00", "18h00", ["LMBL", "CMFB-M"], "T"),
-         (16, "Quinta", "16h00", "18h00", ["LFOP"], "TP")],
+        [(9, "Terça", "10h30", "12h30", ["HMSO"], "TP")],
+        [(10, "Segunda", "14h00", "16h00", ["FAFAM"], "TP")],
+        [(11, "Sexta", "14h00", "16h00", ["JHSO"], "TP")],
+        [(12, "Segunda", "14h00", "16h00", ["PRCS"], "TP")],
+        [(13, "Terça", "10h30", "12h30", ["LMBL"], "TP")],
+        [(14, "Quarta", "08h30", "10h30", ["MMC"], "TP")],
+        [(15, "Quinta", "16h00", "18h00", ["LFOP"], "TP")],
+        [(16, "Quinta", "16h00", "18h00", ["LFOP"], "TP")],
     ]
-    
     
 }
 
 #         Seg Ter Qua Qui Sex
 horario = [[], [], [], [], []]
-
 def no_time_conflict(start1, end1, start2, end2):
     """
     Check if two time intervals conflict.
@@ -278,7 +157,7 @@ def generate_schedules(courses, remaining_courses, current_schedule):
 
     return schedules_list
 
-def output_schedules_to_excel(schedules, filename="schedules_all.xlsx"):
+def output_schedules_to_excel(schedules, filename="schedules_2oturno.xlsx"):
     """
     Outputs the given list of schedules to an Excel file.
     """
@@ -423,6 +302,7 @@ def filter_schedules_by_professor(schedules, professor):
     
     return filtered_schedules
 
+
 def apply_filters(schedules, settings):
     """
     Applies all active filters to the schedules based on the current settings.
@@ -439,6 +319,7 @@ def apply_filters(schedules, settings):
         filtered_schedules = filter_schedules_by_professor(filtered_schedules, settings["professor"])
 
     return filtered_schedules
+
 
 def count_subject_days(schedule):
     """
@@ -482,14 +363,14 @@ def main():
         if user_choice == "1":
             if is_first_time:
                 print("\nCalculating all schedules...\n")
-                schedules = generate_schedules(aulas, ["AED", "FII", "BD", "LDTS", "SO"], [[], [], [], [], []])
+                schedules = generate_schedules(aulas, ["AED","AEDT", "FII", "FIIT", "BD","BDT", "LDTS","LDTST", "SO","SOT"], [[], [], [], [], []])
                 original_schedules = copy.deepcopy(schedules)
                 is_first_time = False
                 print("Schedules generated successfully!\n")
             else:
                 schedules = copy.deepcopy(original_schedules)
                 filter_settings = {
-                    "free_days": 0,
+                    "free_days": 0,  # Reset to 0 instead of False
                     "end_time": DEFAULT_END_TIME,
                     "professor": ""
                 }
@@ -505,7 +386,7 @@ def main():
                 print(f"- Professor: {filter_settings['professor'] if filter_settings['professor'] else 'Not set'}")
                 print(f"\nNumber of schedules: {len(schedules)}")
                 print("\nChoose an option:")
-                filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
+                filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n\n4 - Apply filters\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
 
                 if filter_choice == "1":
                     new_free_days = input(f"\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
@@ -514,8 +395,6 @@ def main():
                         if 0 <= new_free_days <= 5:
                             filter_settings["free_days"] = new_free_days
                             print(f"\nMinimum free days set to: {new_free_days}")
-                            schedules = apply_filters(original_schedules, filter_settings)
-                            print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
                         else:
                             print("\nInvalid input. Please enter a number between 0 and 5.")
                     except ValueError:
@@ -525,25 +404,24 @@ def main():
                     new_end_time = input(f'\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
                     filter_settings["end_time"] = new_end_time
                     print(f"\nEnd time set to: {new_end_time}")
-                    schedules = apply_filters(original_schedules, filter_settings)
-                    print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
 
                 elif filter_choice == "3":
                     new_professor = input("\nEnter the professor's name: ")
                     filter_settings["professor"] = new_professor
                     print(f"\nProfessor filter set to: {new_professor}")
+
+                elif filter_choice == "4":
                     schedules = apply_filters(original_schedules, filter_settings)
-                    print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
+                    print(f"\nFilters applied. Number of schedules after filtering: {len(schedules)}")
 
                 elif filter_choice == "9":
                     filter_settings = {
-                        "free_days": 0,
+                        "free_days": 0,  # Reset to 0 instead of False
                         "end_time": DEFAULT_END_TIME,
                         "professor": ""
                     }
                     schedules = copy.deepcopy(original_schedules)
                     print("\nFilter settings and schedules reset successfully.")
-                    print(f"Number of schedules after resetting: {len(schedules)}")
 
                 elif filter_choice == "0":
                     break
