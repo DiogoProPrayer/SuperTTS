@@ -1,4 +1,4 @@
-# Schedule Generator (SUPER TTS)
+# Super TTS (Schedule Generator)
 
 ## Description
 
