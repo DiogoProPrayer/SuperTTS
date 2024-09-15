@@ -27,7 +27,7 @@ aulas = {
         [(11, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
          (11, "Segunda", "14h00", "16h00", ["FMMR"], "TP")],
         [(12, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
-         (12, "Terça", "10h30", "12h30", ["DEI_2_AED_1"], "TP")],
+         (12, "Terça", "10h30", "12h30", ["JAC"], "TP")],
         [(13, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
          (13, "Quarta", "08h30", "10h30", ["BJCL"], "TP")],
         [(14, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
@@ -104,9 +104,9 @@ aulas = {
         [(14, "Segunda", "16h00", "18h00", ["rma"], "T"),
          (14, "Sexta", "14h00", "16h00", ["JAC"], "PL")],
         [(15, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (15, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+         (15, "Terça", "10h30", "12h30", ["SOR"], "PL")],
         [(16, "Segunda", "16h00", "18h00", ["rma"], "T"),
-         (16, "Terça", "10h30", "12h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+         (16, "Terça", "10h30", "12h30", ["SOR"], "PL")],
     ],
     
     "SO" : [
@@ -266,6 +266,22 @@ def output_schedules_to_excel(schedules, filename="schedules_2oturno.xlsx"):
     wb.save(filename)
     print(f"Schedules have been saved to {filename}")
 
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
 def filter_schedules_by_free_days(schedules, min_free_days):
     """
     Filters schedules to include only those that have at least the specified number of completely free days.
@@ -380,7 +396,7 @@ def main():
     global filter_settings
 
     while user_choice != "0":
-        print("\n\n ||| SUPER TTS |||\n")
+        print("\n\n\n\n\n\n\n\n\n ||| SUPER TTS |||\n")
         print("Main Menu\n")
         print(f"Number of schedules: {len(schedules)}")
         print("\nChoose an option:")
@@ -405,7 +421,7 @@ def main():
         elif user_choice == "2":
             filter_choice = ""
             while filter_choice != "0":
-                print("\n\nFilter Options\n")
+                print("\n\n\n\n\n\n\n\n\n\n\nFilter Options\n")
                 print(f"Current settings:")
                 print(f"- Minimum free days: {filter_settings['free_days']}")
                 print(f"- End time: {filter_settings['end_time']}")
@@ -415,7 +431,7 @@ def main():
                 filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
 
                 if filter_choice == "1":
-                    new_free_days = input(f"\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
+                    new_free_days = input(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
                     try:
                         new_free_days = int(new_free_days)
                         if 0 <= new_free_days <= 5:
@@ -429,14 +445,14 @@ def main():
                         print("\nInvalid input. Please enter a valid integer.")
                 
                 elif filter_choice == "2":
-                    new_end_time = input(f'\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
+                    new_end_time = input(f'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
                     filter_settings["end_time"] = new_end_time
                     print(f"\nEnd time set to: {new_end_time}")
                     schedules = apply_filters(original_schedules, filter_settings)
                     print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
 
                 elif filter_choice == "3":
-                    new_professor = input("\nEnter the professor's name: ")
+                    new_professor = input("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnter the professor's name: ")
                     filter_settings["professor"] = new_professor
                     print(f"\nProfessor filter set to: {new_professor}")
                     schedules = apply_filters(original_schedules, filter_settings)
@@ -466,6 +482,8 @@ def main():
         elif user_choice == "0":
             print("\nThank you for using SUPER TTS. Goodbye!")
             break
+
+
 
 if __name__ == "__main__":
     main()

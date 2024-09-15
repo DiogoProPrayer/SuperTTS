@@ -1,0 +1,8 @@
+Fixes:
+Restivo - LDTS - AOR
+
+
+Não fixes:
+Ana Paula Tomas - AED - APNGT
+Lázaro - BD - LGBC
+Maranhão - LDTS - rma

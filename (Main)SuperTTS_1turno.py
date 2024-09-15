@@ -21,15 +21,15 @@ filter_settings = {
 aulas = {
     "AED": [
         [(1, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (1, "Terça", "08:30", "10:30", ["DEI_2_AED_2"], "TP")],
+         (1, "Terça", "08:30", "10:30", ["JAC"], "TP")],
         [(2, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
          (2, "Segunda", "16:00", "19:00", ["FMMR"], "TP")],
         [(3, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (3, "Quarta", "11:00", "13:00", ["DEI_2_AED_2"], "TP")],
+         (3, "Quarta", "11:00", "13:00", ["PMSP"], "TP")],
         [(4, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
          (4, "Quarta", "10:30", "12:30", ["BJCL"], "TP")],
         [(5, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
-         (5, "Terça", "08:30", "10:30", ["DEI_2_AED_1"], "TP")],
+         (5, "Terça", "08:30", "10:30", ["APNGT"], "TP")],
         [(6, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
          (6, "Sexta", "17:00", "19:00", ["VAFS"], "TP")],
         [(7, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
@@ -64,7 +64,7 @@ aulas = {
         
         [(7,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
          (7,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
-         (7,"Terça", "08h30", "10h30", ["DEI_PAUX_SINF"], "TP"),],
+         (7,"Terça", "08h30", "10h30", ["AMMAMV"], "TP"),],
         
         [(8,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
          (8,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
@@ -102,7 +102,7 @@ aulas = {
         [(5, "Segunda", "14h00", "16h00", ["rma"], "T"),
          (5, "Quarta", "10h30", "12h30", ["LFFG"], "PL")],
         [(6, "Segunda", "14h00", "16h00", ["rma"], "T"),
-         (6, "Terça", "08h30", "10h30", ["DEI_2_LDSO_1 - Sofia"], "PL")],
+         (6, "Terça", "08h30", "10h30", ["SOR"], "PL")],
         [(7, "Segunda", "14h00", "16h00", ["rma"], "T"),
          (7, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
         [(8, "Segunda", "14h00", "16h00", ["rma"], "T"),
@@ -266,6 +266,23 @@ def output_schedules_to_excel(schedules, filename="schedules_1oturno.xlsx"):
     wb.save(filename)
     print(f"Schedules have been saved to {filename}")
 
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+
 def filter_schedules_by_free_days(schedules, min_free_days):
     """
     Filters schedules to include only those that have at least the specified number of completely free days.
@@ -382,7 +399,7 @@ def main():
     global filter_settings
 
     while user_choice != "0":
-        print("\n\n ||| SUPER TTS |||\n")
+        print("\n\n\n\n\n\n\n\n\n ||| SUPER TTS |||\n")
         print("Main Menu\n")
         print(f"Number of schedules: {len(schedules)}")
         print("\nChoose an option:")
@@ -407,7 +424,7 @@ def main():
         elif user_choice == "2":
             filter_choice = ""
             while filter_choice != "0":
-                print("\n\nFilter Options\n")
+                print("\n\n\n\n\n\n\n\n\n\n\nFilter Options\n")
                 print(f"Current settings:")
                 print(f"- Minimum free days: {filter_settings['free_days']}")
                 print(f"- End time: {filter_settings['end_time']}")
@@ -417,7 +434,7 @@ def main():
                 filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
 
                 if filter_choice == "1":
-                    new_free_days = input(f"\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
+                    new_free_days = input(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
                     try:
                         new_free_days = int(new_free_days)
                         if 0 <= new_free_days <= 5:
@@ -431,14 +448,14 @@ def main():
                         print("\nInvalid input. Please enter a valid integer.")
                 
                 elif filter_choice == "2":
-                    new_end_time = input(f'\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
+                    new_end_time = input(f'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
                     filter_settings["end_time"] = new_end_time
                     print(f"\nEnd time set to: {new_end_time}")
                     schedules = apply_filters(original_schedules, filter_settings)
                     print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
 
                 elif filter_choice == "3":
-                    new_professor = input("\nEnter the professor's name: ")
+                    new_professor = input("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnter the professor's name: ")
                     filter_settings["professor"] = new_professor
                     print(f"\nProfessor filter set to: {new_professor}")
                     schedules = apply_filters(original_schedules, filter_settings)
@@ -468,6 +485,7 @@ def main():
         elif user_choice == "0":
             print("\nThank you for using SUPER TTS. Goodbye!")
             break
+
 
 if __name__ == "__main__":
     main()
