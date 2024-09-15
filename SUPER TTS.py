@@ -1,24 +1,140 @@
+import colorama
+from colorama import Fore, Style
 import copy
 import openpyxl
 from openpyxl.styles import PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
+# Initialize colorama
+colorama.init(autoreset=True)
+
 
 # Helper constants
 DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]
 DEFAULT_END_TIME = "20h00"
-
+excelname = "schedules.xlsx"
 
 
 filter_settings = {
     "free_days": 0,
     "end_time": DEFAULT_END_TIME,
-    "professor": ""
+    "good_professors": [],
+    "bad_professors": []
 }
 
 
-# As horas têm de ter todas 5 digitos
-aulas = {
+aulas1 = {
+    "AED": [
+        [(1, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (1, "Terça", "08:30", "10:30", ["JAC"], "TP")],
+        [(2, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (2, "Segunda", "16:00", "19:00", ["FMMR"], "TP")],
+        [(3, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (3, "Quarta", "11:00", "13:00", ["PMSP"], "TP")],
+        [(4, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (4, "Quarta", "10:30", "12:30", ["BJCL"], "TP")],
+        [(5, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (5, "Terça", "08:30", "10:30", ["APNGT"], "TP")],
+        [(6, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (6, "Sexta", "17:00", "19:00", ["VAFS"], "TP")],
+        [(7, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (7, "Sexta", "17:00", "19:00", ["IXSDS"], "TP")],
+        [(8, "Quinta", "17:30", "19:30", ["PMPR", "PNFRCD"], "T"),
+         (8, "Quinta", "14:00", "16:00", ["APR"], "TP")],
+    ],
+    "BD": [
+        [(1,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (1,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (1,"Quarta", "10:30", "12:30", ["ANE"], "TP"),],
+        
+        [(2,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (2,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (2,"Sexta", "17h00", "19h00", ["JPMD"], "TP"),],
+        
+        [(3,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (3,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (3,"Quinta", "14h00", "16h00", ["DFG"], "TP"),],
+        
+        [(4,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (4,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (4,"Segunda", "16h00", "18h00", ["LGBC"], "TP"),],
+        
+        [(5,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (5,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (5,"Sexta", "17h00", "19h00", ["MFD"], "TP"),],
+        
+        [(6,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (6,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (6,"Segunda", "16h00", "18h00", ["MCPF"], "TP"),],
+        
+        [(7,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (7,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (7,"Terça", "08h30", "10h30", ["AMMAMV"], "TP"),],
+        
+        [(8,"Segunda", "13:00", "14:00", ["MCPF", "CTL"], "T"),
+         (8,"Sexta", "16:00", "17:00", ["MCPF", "CTL"], "T"),
+         (8,"Terça", "08h30", "10h30", ["ASP"], "TP"),],
+    ],
+    
+    "FII": [
+        [(1, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (1, "Quinta", "14:00", "15:30", ["MFGM"], "TP")],
+        [(2, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (2, "Quinta", "14:30", "16:00", ["JB"], "TP")],
+        [(3, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (3, "Segunda", "16:00", "17:30", ["JCREO"], "TP")],
+        [(4, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (4, "Sexta", "17:00", "18:30", ["AGCG"], "TP")],
+        [(5, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (5, "Segunda", "16:00", "17:30", ["PPA"], "TP")],
+        [(6, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (6, "Quinta", "14:30", "16:00", ["DPU"], "TP")],
+        [(7, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (7, "Quinta", "14:00", "15:30", ["DEI_1_FP_1"], "TP")],
+        [(8, "Quinta", "16:00", "17:30", ["JCREO"], "T"),
+         (8, "Sexta", "17:00", "18:30", ["JCREO"], "TP")],
+    ],
+    
+    "LDTS" : [
+        [(1, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (1, "Segunda", "16h00", "18h00", ["AOR"], "PL")],
+        [(2, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (2, "Terça", "08h30", "10h30", ["rma"], "PL")],
+        [(3, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (3, "Sexta", "17h00", "19h00", ["JAC"], "PL")],
+        [(4, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (4, "Quinta", "14h00", "16h00", ["JCMC"], "PL")],
+        [(5, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (5, "Quarta", "10h30", "12h30", ["LFFG"], "PL")],
+        [(6, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (6, "Terça", "08h30", "10h30", ["SOR"], "PL")],
+        [(7, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (7, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
+        [(8, "Segunda", "14h00", "16h00", ["rma"], "T"),
+         (8, "Quarta", "10h30", "12h30", ["DABF"], "PL")],
+    ],
+    
+    "SO" : [
+        [(1, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (1, "Sexta", "17h00", "19h00", ["JHSO"], "TP")],
+        [(2, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (2, "Quarta", "10h30", "12h30", ["TLS"], "TP")],
+        [(3, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (3, "Terça", "08h30", "10h30", ["HMSO"], "TP")],
+        [(4, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (4, "Terça", "08h30", "10h30", ["LMBL"], "TP")],
+        [(5, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (5, "Quinta", "14h00", "16h00", ["LFOP"], "TP")],
+        [(6, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (6, "Quarta", "10h30", "12h30", ["MMC"], "TP")],
+        [(7, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (7, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
+        [(8, "Sexta", "14h00", "16h00", ["LMBL", "CMFB-M"], "T"),
+         (8, "Segunda", "16h00", "18h00", ["PRCS"], "TP")],
+    ] 
+}
+
+aulas2 = {
     "AED": [
         [(9, "Quarta", "10:30", "12:30", ["PMPR", "PNFRCD"], "T"),
          (9, "Sexta", "14:00", "16:00", ["IXSDS"], "TP")],
@@ -185,7 +301,7 @@ def generate_schedules(courses, remaining_courses, current_schedule):
 
     return schedules_list
 
-def output_schedules_to_excel(schedules, filename="schedules_2oturno.xlsx"):
+def output_schedules_to_excel(schedules, filename=excelname):
     """
     Outputs the given list of schedules to an Excel file.
     """
@@ -266,22 +382,6 @@ def output_schedules_to_excel(schedules, filename="schedules_2oturno.xlsx"):
     wb.save(filename)
     print(f"Schedules have been saved to {filename}")
 
-
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-
 def filter_schedules_by_free_days(schedules, min_free_days):
     """
     Filters schedules to include only those that have at least the specified number of completely free days.
@@ -324,24 +424,35 @@ def filter_schedules_by_end_time(schedules, end_time):
     
     return list(filter(ends_before_time, schedules))
 
-def filter_schedules_by_professor(schedules, professor):
+def filter_schedules_by_professors(schedules, good_professors, bad_professors):
     """
-    Filters schedules to include only those that have at least one class with the specified professor.
+    Filters schedules to include those with good professors and exclude those with bad professors,
+    ignoring professors of "T" (theoretical) classes.
     """
     filtered_schedules = []
     
     for schedule in schedules:
-        contains_professor = False
+        contains_bad_professor = False
+        contains_all_good_professors = True
+        good_professors_found = set()
+
         for day in schedule:
             for class_info in day:
-                # class_info[4] is the list of professors for this class
-                if professor in class_info[4]:
-                    contains_professor = True
-                    break
-            if contains_professor:
+                # Ignore "T" classes when checking professors
+                if class_info[5] != "T":
+                    # class_info[4] is the list of professors for this class
+                    if any(prof in class_info[4] for prof in bad_professors):
+                        contains_bad_professor = True
+                        break
+                    
+                    for prof in good_professors:
+                        if prof in class_info[4]:
+                            good_professors_found.add(prof)
+            
+            if contains_bad_professor:
                 break
         
-        if contains_professor:
+        if not contains_bad_professor and good_professors_found == set(good_professors):
             filtered_schedules.append(schedule)
     
     return filtered_schedules
@@ -358,8 +469,8 @@ def apply_filters(schedules, settings):
     if settings["end_time"] != DEFAULT_END_TIME:
         filtered_schedules = filter_schedules_by_end_time(filtered_schedules, settings["end_time"])
 
-    if settings["professor"]:
-        filtered_schedules = filter_schedules_by_professor(filtered_schedules, settings["professor"])
+    if settings["good_professors"] or settings["bad_professors"]:
+        filtered_schedules = filter_schedules_by_professors(filtered_schedules, settings["good_professors"], settings["bad_professors"])
 
     return filtered_schedules
 
@@ -388,102 +499,145 @@ def order_schedules_by_subject_day(schedules):
     sorted_schedules = sorted(schedules, key=count_subject_days)
     return sorted_schedules
 
+def order_schedules_by_best_professors(schedules, best_professors):
+    """
+    Orders the schedules by prioritizing those that have the most classes with the best professors.
+    Ignores professors of "T" (theoretical) classes.
+    """
+    def count_best_professor_classes(schedule):
+        count = 0
+        for day in schedule:
+            for class_info in day:
+                if class_info[5] != "T":  # Ignore "T" classes
+                    count += sum(prof in class_info[4] for prof in best_professors)
+        return count
+
+    return sorted(schedules, key=count_best_professor_classes, reverse=True)
+
 def main():
     schedules = []
     original_schedules = []
-    is_first_time = True
     user_choice = ""
     global filter_settings
+    
+    print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n {Fore.CYAN}{Style.BRIGHT}||| SUPER TTS |||{Style.RESET_ALL}\n")
+    i = input(f"{Fore.CYAN}{Style.BRIGHT}1 - Calculate 1st Turn Schedules\n2 - Calculate 2nd Turn Schedules\n\nInput: {Style.RESET_ALL}")
+    if i == "1":
+        aulas = aulas1
+        excelname = "Schedules_1turno.xlsx"
+    elif i == "2":
+        aulas = aulas2
+        excelname = "Schedules_2turno.xlsx"
+    else:
+        print(f"{Fore.RED}Invalid input. Exiting.{Style.RESET_ALL}")
+        return
 
+    print(f"\n{Fore.YELLOW}Calculating schedules...{Style.RESET_ALL}\n")
+    schedules = generate_schedules(aulas, ["AED", "FII", "BD", "LDTS", "SO"], [[], [], [], [], []])
+    original_schedules = copy.deepcopy(schedules)
+    print(f"{Fore.GREEN}Schedules generated successfully!{Style.RESET_ALL} Total schedules: {len(schedules)}\n")
+    
     while user_choice != "0":
-        print("\n\n\n\n\n\n\n\n\n ||| SUPER TTS |||\n")
-        print("Main Menu\n")
-        print(f"Number of schedules: {len(schedules)}")
-        print("\nChoose an option:")
-        user_choice = input("1 - Calculate all schedules\n2 - Set filters\n3 - Output to Excel\n4 - Order schedules by subject days\n0 - Quit\n\nYour choice: ")
+        print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n {Fore.CYAN}{Style.BRIGHT}||| SUPER TTS |||{Style.RESET_ALL}\n")
+        print(f"{Fore.CYAN}Main Menu{Style.RESET_ALL}\n")
+        print(f"{Fore.YELLOW}Number of schedules: {len(schedules)}{Style.RESET_ALL}")
+        print(f"\nChoose an option:")
+        user_choice = input(f"{Fore.CYAN}{Style.BRIGHT}1 - Set filters\n{Fore.GREEN}2 - Output to Excel\n{Fore.CYAN}3 - Order schedules by subject days\n4 - Order schedules by best professors\n\n{Fore.RED}0 - Quit\n\n{Fore.CYAN}Your choice: {Style.RESET_ALL}")
 
         if user_choice == "1":
-            if is_first_time:
-                print("\nCalculating all schedules...\n")
-                schedules = generate_schedules(aulas, ["AED", "FII", "BD", "LDTS", "SO"], [[], [], [], [], []])
-                original_schedules = copy.deepcopy(schedules)
-                is_first_time = False
-                print("Schedules generated successfully!\n")
-            else:
-                schedules = copy.deepcopy(original_schedules)
-                filter_settings = {
-                    "free_days": 0,
-                    "end_time": DEFAULT_END_TIME,
-                    "professor": ""
-                }
-                print("\nSchedules and filter settings reset successfully!\n")
-
-        elif user_choice == "2":
             filter_choice = ""
             while filter_choice != "0":
-                print("\n\n\n\n\n\n\n\n\n\n\nFilter Options\n")
-                print(f"Current settings:")
+                print(f"\n\n\n\n\n\n\n\n\n\n\n{Fore.CYAN}{Style.BRIGHT}Filter Options{Style.RESET_ALL}\n")
+                print(f"{Fore.YELLOW}Current settings:{Style.RESET_ALL}")
                 print(f"- Minimum free days: {filter_settings['free_days']}")
                 print(f"- End time: {filter_settings['end_time']}")
-                print(f"- Professor: {filter_settings['professor'] if filter_settings['professor'] else 'Not set'}")
-                print(f"\nNumber of schedules: {len(schedules)}")
-                print("\nChoose an option:")
-                filter_choice = input('1 - Set minimum free days\n2 - Set end time\n3 - Set professor\n9 - Reset all\n0 - Back to main menu\n\nYour choice: ')
-
+                print(f"- Good professors: {', '.join(filter_settings['good_professors']) if filter_settings['good_professors'] else 'Not set'}")
+                print(f"- Bad professors: {', '.join(filter_settings['bad_professors']) if filter_settings['bad_professors'] else 'Not set'}")
+                print(f"\n{Fore.YELLOW}Number of schedules: {len(schedules)}{Style.RESET_ALL}")
+                print(f"\nChoose an option:")
+                filter_choice = input(f"{Fore.CYAN}{Style.BRIGHT}1 - Set minimum free days\n2 - Set end time\n3 - Set good professors\n4 - Set bad professors\n\n{Fore.RED}9 - Reset all\n0 - Back to main menu\n\n{Fore.CYAN}Your choice: {Style.RESET_ALL}")
+            
                 if filter_choice == "1":
-                    new_free_days = input(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCurrent minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): ")
+                    new_free_days = input(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n{Fore.CYAN}Current minimum free days: {filter_settings['free_days']}\nEnter new minimum free days (0-5): {Style.RESET_ALL}")
                     try:
                         new_free_days = int(new_free_days)
                         if 0 <= new_free_days <= 5:
                             filter_settings["free_days"] = new_free_days
-                            print(f"\nMinimum free days set to: {new_free_days}")
+                            print(f"\n{Fore.GREEN}Minimum free days set to: {new_free_days}{Style.RESET_ALL}")
                             schedules = apply_filters(original_schedules, filter_settings)
-                            print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
+                            print(f"{Fore.GREEN}Filters applied. Number of schedules after filtering: {len(schedules)}{Style.RESET_ALL}")
                         else:
-                            print("\nInvalid input. Please enter a number between 0 and 5.")
+                            print(f"\n{Fore.RED}Invalid input. Please enter a number between 0 and 5.{Style.RESET_ALL}")
                     except ValueError:
-                        print("\nInvalid input. Please enter a valid integer.")
+                        print(f"\n{Fore.RED}Invalid input. Please enter a valid integer.{Style.RESET_ALL}")
                 
                 elif filter_choice == "2":
-                    new_end_time = input(f'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCurrent end time: {filter_settings["end_time"]}\nEnter new end time: ')
+                    new_end_time = input(f'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n{Fore.CYAN}Current end time: {filter_settings["end_time"]}\nEnter new end time: {Style.RESET_ALL}')
                     filter_settings["end_time"] = new_end_time
-                    print(f"\nEnd time set to: {new_end_time}")
+                    print(f"\n{Fore.GREEN}End time set to: {new_end_time}{Style.RESET_ALL}")
                     schedules = apply_filters(original_schedules, filter_settings)
-                    print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
+                    print(f"{Fore.GREEN}Filters applied. Number of schedules after filtering: {len(schedules)}{Style.RESET_ALL}")
 
                 elif filter_choice == "3":
-                    new_professor = input("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnter the professor's name: ")
-                    filter_settings["professor"] = new_professor
-                    print(f"\nProfessor filter set to: {new_professor}")
+                    new_professors = input(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n{Fore.CYAN}Enter good professors' names (comma-separated) or 'c' to clear the list: {Style.RESET_ALL}")
+                    if new_professors.lower() == 'c':
+                        filter_settings["good_professors"] = []
+                        print(f"\n{Fore.GREEN}Good professors list cleared.{Style.RESET_ALL}")
+                    else:
+                        filter_settings["good_professors"] = [prof.strip() for prof in new_professors.split(',') if prof.strip()]
+                    print(f"\n{Fore.GREEN}Good professors filter set to: {', '.join(filter_settings['good_professors'])}{Style.RESET_ALL}")
                     schedules = apply_filters(original_schedules, filter_settings)
-                    print(f"Filters applied. Number of schedules after filtering: {len(schedules)}")
+                    print(f"{Fore.GREEN}Filters applied. Number of schedules after filtering: {len(schedules)}{Style.RESET_ALL}")
+
+                elif filter_choice == "4":
+                    new_professors = input(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n{Fore.CYAN}Enter bad professors' names (comma-separated) or 'c' to clear the list: {Style.RESET_ALL}")
+                    if new_professors.lower() == 'c':
+                        filter_settings["bad_professors"] = []
+                        print(f"\n{Fore.GREEN}Bad professors list cleared.{Style.RESET_ALL}")
+                    else:
+                        filter_settings["bad_professors"] = [prof.strip() for prof in new_professors.split(',') if prof.strip()]
+                    print(f"\n{Fore.GREEN}Bad professors filter set to: {', '.join(filter_settings['bad_professors'])}{Style.RESET_ALL}")
+                    schedules = apply_filters(original_schedules, filter_settings)
+                    print(f"{Fore.GREEN}Filters applied. Number of schedules after filtering: {len(schedules)}{Style.RESET_ALL}")
 
                 elif filter_choice == "9":
                     filter_settings = {
                         "free_days": 0,
                         "end_time": DEFAULT_END_TIME,
-                        "professor": ""
+                        "good_professors": [],
+                        "bad_professors": []
                     }
                     schedules = copy.deepcopy(original_schedules)
-                    print("\nFilter settings and schedules reset successfully.")
-                    print(f"Number of schedules after resetting: {len(schedules)}")
+                    print(f"\n{Fore.GREEN}Filter settings and schedules reset successfully.{Style.RESET_ALL}")
+                    print(f"{Fore.YELLOW}Number of schedules after resetting: {len(schedules)}{Style.RESET_ALL}")
 
                 elif filter_choice == "0":
                     break
 
-        elif user_choice == "3":
-            output_schedules_to_excel(schedules)
-            print("\nSchedules exported to Excel successfully!\n")
+        elif user_choice == "2":
+            output_schedules_to_excel(schedules, filename=excelname)
+            print(f"\n{Fore.GREEN}Schedules exported to {excelname} successfully!\n{Style.RESET_ALL}")
         
-        elif user_choice == "4":
+        elif user_choice == "3":
             schedules = order_schedules_by_subject_day(schedules)
-            print("\nSchedules ordered by subject days successfully!\n")
+            print(f"\n{Fore.GREEN}Schedules ordered by subject days successfully!\n{Style.RESET_ALL}")
+
+        elif user_choice == "4":
+            print(f"\n\n\n\n\n\n\n\n\n\n\n{Fore.CYAN}{Style.BRIGHT}Order Schedules by Best Professors{Style.RESET_ALL}")
+            print("Enter the names of the best professors, separated by commas.")
+            best_professors_input = input(f"{Fore.CYAN}Enter best professors: {Style.RESET_ALL}")
+            best_professors = [prof.strip() for prof in best_professors_input.split(',')]
+            
+            if best_professors:
+                schedules = order_schedules_by_best_professors(schedules, best_professors)
+                print(f"\n{Fore.GREEN}Schedules ordered by best professors successfully!{Style.RESET_ALL}")
+                print(f"{Fore.YELLOW}Best professors considered: {', '.join(best_professors)}{Style.RESET_ALL}")
+            else:
+                print(f"\n{Fore.RED}No best professors entered. Schedules remain unchanged.{Style.RESET_ALL}")
 
         elif user_choice == "0":
-            print("\nThank you for using SUPER TTS. Goodbye!")
+            print(f"\n{Fore.GREEN}Thank you for using SUPER TTS. Goodbye!{Style.RESET_ALL}")
             break
-
-
 
 if __name__ == "__main__":
     main()

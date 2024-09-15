@@ -8,12 +8,13 @@ from openpyxl.utils import get_column_letter
 DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]
 DEFAULT_END_TIME = "20h00"
 
-
+excelname = "schedules.xlsx"
 
 filter_settings = {
     "free_days": 0,
     "end_time": DEFAULT_END_TIME,
     "professor": ""
+    
 }
 
 
@@ -185,7 +186,7 @@ def generate_schedules(courses, remaining_courses, current_schedule):
 
     return schedules_list
 
-def output_schedules_to_excel(schedules, filename="schedules_1oturno.xlsx"):
+def output_schedules_to_excel(schedules, filename=excelname):
     """
     Outputs the given list of schedules to an Excel file.
     """
@@ -391,6 +392,22 @@ def order_schedules_by_subject_day(schedules):
     sorted_schedules = sorted(schedules, key=count_subject_days)
     return sorted_schedules
 
+def order_schedules_by_best_professors(schedules, best_professors):
+    """
+    Orders the schedules by prioritizing those that have the most classes with the best professors.
+    Ignores professors of "T" (theoretical) classes.
+    """
+    def count_best_professor_classes(schedule):
+        count = 0
+        for day in schedule:
+            for class_info in day:
+                if class_info[5] != "T":  # Ignore "T" classes
+                    count += sum(prof in class_info[4] for prof in best_professors)
+        return count
+
+    return sorted(schedules, key=count_best_professor_classes, reverse=True)
+
+
 def main():
     schedules = []
     original_schedules = []
@@ -403,7 +420,7 @@ def main():
         print("Main Menu\n")
         print(f"Number of schedules: {len(schedules)}")
         print("\nChoose an option:")
-        user_choice = input("1 - Calculate all schedules\n2 - Set filters\n3 - Output to Excel\n4 - Order schedules by subject days\n0 - Quit\n\nYour choice: ")
+        user_choice = input("1 - Calculate all schedules\n2 - Set filters\n3 - Output to Excel\n4 - Order schedules by subject days\n5 - Order schedules by best professors\n0 - Quit\n\nYour choice: ")
 
         if user_choice == "1":
             if is_first_time:
@@ -482,10 +499,22 @@ def main():
             schedules = order_schedules_by_subject_day(schedules)
             print("\nSchedules ordered by subject days successfully!\n")
 
+        elif user_choice == "5":
+            print("\n\n\n\n\n\n\n\n\n\n\nOrder Schedules by Best Professors")
+            print("Enter the names of the best professors, separated by commas.")
+            best_professors_input = input("Enter best professors: ")
+            best_professors = [prof.strip() for prof in best_professors_input.split(',')]
+            
+            if best_professors:
+                schedules = order_schedules_by_best_professors(schedules, best_professors)
+                print("\nSchedules ordered by best professors successfully!")
+                print(f"Best professors considered: {', '.join(best_professors)}")
+            else:
+                print("\nNo best professors entered. Schedules remain unchanged.")
+
         elif user_choice == "0":
             print("\nThank you for using SUPER TTS. Goodbye!")
             break
-
 
 if __name__ == "__main__":
     main()
